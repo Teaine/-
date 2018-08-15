@@ -4,10 +4,11 @@ var show = false;
 var item = {};
 var citynum = -1;
 
+var id;
 Page({
   data: {
     showTopTips: false,
-    Toptip: "",
+    Toptip: " ",
 
     isAgree: false,
     files: [],
@@ -132,11 +133,16 @@ Page({
   },
   chooseImage: function(e) {
     var that = this;
-    if(that.data.files.length >= 10){
+    if (that.data.files.length >= 10) {
       that.setData({
-        showTopTips:1,
-        Toptip:"最多只能上传10张图片"
+        showTopTips: 1,
+        Toptip: "最多只能上传10张图片"
       });
+      setTimeout(function() {
+        that.setData({
+          showTopTips: false
+        });
+      }, 3000);
       return;
     }
     wx.chooseImage({
@@ -158,13 +164,13 @@ Page({
   },
   deleteImage: function(e) {
     var that = this;
-    var files = that.data.files
+    var files = that.data.files;
     var index = files.indexOf(e.currentTarget.id);
     //console.log(files);
-    files.splice(index,1);
+    files.splice(index, 1);
     //console.log(files);
     this.setData({
-      files:files
+      files: files
     });
   },
   deletecity: function(e) {
@@ -182,5 +188,68 @@ Page({
       newcityItems[num].id = num;
     }
     this.setData({ cityItems: newcityItems });
+  },
+  formSubmit: function(e){
+    console.log("submit",e.detail.value);
+    var that=this; 
+    var files = that.data.files;
+    var city = that.data.cityItems;
+    console.log(that.data.files);
+    console.log(that.data.cityItems);
+
+    wx.request({
+      url: 'http://111.231.133.135/wx/data.php', //仅为示例，并非真实的接口地址
+      data: {
+         name: e.detail.value.name,
+         bagmoney: e.detail.value.bagmoney,
+         bagnum: e.detail.value.bagnum,
+         files: files.join(" "),
+         city: JSON.stringify(city) 
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success: function(res) {
+        console.log(res.data);
+        id = res.data;
+      },
+      fail: function(e){
+        that.setData({
+          showTopTips: 1,
+          Toptip: "生成广告失败，无法上传数据"
+        });
+        setTimeout(function() {
+          that.setData({
+            showTopTips: false
+          });
+        }, 3000);
+      }
+    });
+    var i;
+    for(i=0;i<files.length;i++){
+      wx.uploadFile({
+        url: 'http://111.231.133.135/wx/upload.php', //仅为示例，非真实的接口地址
+        filePath: files[i],
+        name: 'file',
+        formData:{
+          'id': id
+        },
+        success: function(res){
+          var data = res.data
+          
+        },
+        fail: function(e){
+          that.setData({
+            showTopTips: 1,
+            Toptip: "生成广告失败，无法上传图片"
+          });
+          setTimeout(function() {
+            that.setData({
+              showTopTips: false
+            });
+          }, 3000);
+        }
+      })
+    }
   }
 });

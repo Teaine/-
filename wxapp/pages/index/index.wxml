@@ -5,15 +5,19 @@
         <view class="page__desc">表单输入</view>
     </view>
     <view class="page__bd">
+    <form bindsubmit="formSubmit">
+
         <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{Toptip}}</view>
+
         <view class="weui-cells__title">广告标题</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_input">
                 <view class="weui-cell__bd">
-                    <input class="weui-input" placeholder="请输入文本" />
+                    <input class="weui-input" placeholder="请输入文本" name="name"/>
                 </view>
             </view>
         </view>
+
         <!-- <view class="weui-cells__title">广告内容</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
@@ -23,7 +27,7 @@
                 </view>
             </view>
         </view> -->
-        
+    
        <view class="weui-cells">
             <view class="weui-cell">
                 <view class="weui-cell__bd">
@@ -48,6 +52,7 @@
                 </view>
             </view>
         </view>
+
        <view class="weui-cells__title">预览</view>
        <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
@@ -55,6 +60,24 @@
                     <block wx:for="{{files}}" wx:key="*this">
                         <image class="" src="{{item}}" mode="widthFix" style="width:100%;" bindtap="previewImage" />
                     </block>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-cells__title">红包金额</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入红包金额" name="bagmoney" type="digit"/>
+                </view>
+            </view>
+        </view>
+
+        <view class="weui-cells__title">红包数量</view>
+        <view class="weui-cells weui-cells_after-title">
+            <view class="weui-cell weui-cell_input">
+                <view class="weui-cell__bd">
+                    <input class="weui-input" placeholder="请输入红包数量" name="bagnum" type="number"/>
                 </view>
             </view>
         </view>
@@ -76,11 +99,7 @@
         <view class="infoText" style="display:none;">{{province}} {{city}} {{county}}</view>
         <button class="animation-button" bindtap="translate" style="margin-bottom:20px;">添加地区</button>
 
-        
-
-
-
-        <checkbox-group bindchange="bindAgreeChange">
+        <!-- <checkbox-group bindchange="bindAgreeChange">
             <label class="weui-agree" for="weuiAgree">
                 <view class="weui-agree__text">
                     <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="{{isAgree}}" />
@@ -90,11 +109,13 @@
                     阅读并同意<navigator url="" class="weui-agree__link">《相关条款》</navigator>
                 </view>
             </label>
-        </checkbox-group>
+        </checkbox-group> -->
 
         <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" bindtap="showTopTips">确定</button>
+            <button class="weui-btn" type="primary" formType="submit">生成</button>
         </view>
+    </form>
     </view>
+
 </view>
 <template style="z-index:100;" is="areaData" data="{{...item}}"/>
