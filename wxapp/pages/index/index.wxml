@@ -52,7 +52,7 @@
                 </view>
             </view>
         </view>
-
+        
        <view class="weui-cells__title">预览</view>
        <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell">
@@ -112,7 +112,7 @@
         </checkbox-group> -->
 
         <view class="weui-btn-area">
-            <button class="weui-btn" type="primary" formType="submit">生成</button>
+            <button class="weui-btn red" type="primary" formType="submit">生成</button>
         </view>
     </form>
     </view>

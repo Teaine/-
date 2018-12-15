@@ -1,0 +1,56 @@
+<view class="container">
+    <view class="main">
+        <view class="info flex-wrp">
+            <view class="flex-item">
+                <text style="color:gray;font-size:10px;">下拉领取红包</text>
+            </view>
+        </view>
+        <view class="picList">
+            <view class="img" wx:for="{{picUrlArray}}">
+                <image src="{{item}}" mode="widthFix" style="width:100%;"></image>
+            </view>
+        </view>
+        <view class="message" wx:if="{{showMessage}}">
+            <text>{{message}}</text>
+        </view>
+        <view class="cityHeadline">
+            <text>您所在的地区为：</text>
+        </view>
+        <view class="cities">
+            <view class="city" wx:for="{{cityNow}}">
+                <text>{{item.province}}</text>
+                <text>{{item.city}}</text>
+                <text>{{item.county}}</text>
+            </view>
+        </view>
+        <view class="cityHeadline">
+            <text>该红包允许接收的地区为：</text>
+        </view>
+        <view class="cities">
+            <view class="city" wx:for="{{cities}}">
+                <text>{{item.province}}</text>
+                <text>{{item.city}}</text>
+                <text>{{item.county}}</text>
+            </view>
+        </view>
+        <view class="moneybag" wx:if="{{verifyPass}}">
+            <view class="info flex-wrp">
+                <view class="flex-item" style="margin:20px;padding:10px;">
+                    <text style="color:green;font-size:15px;">地理位置验证通过</text>
+                </view>
+            </view>
+            <view class="btn">
+                <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="getMoneyBag">
+                    点击领取红包
+                </button>
+            </view>
+        </view>
+        <view wx:if="{{!verifyPass}}">
+            <view class="info flex-wrp">
+                <view class="flex-item" style="margin:20px;padding:10px;">
+                    <text style="color:red;font-size:15px;">地理位置验证未通过，请到红包领取区域范围内领取。</text>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
