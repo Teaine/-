@@ -1,15 +1,15 @@
 <import src="../../model/model.wxml"/>
 <view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
     <view class="page__hd">
-        <view class="page__title">广告定制</view>
-        <view class="page__desc">表单输入</view>
+        <view class="page__title">同传宝红包推广定制</view>
+        <view class="page__desc">输入红包信息</view>
     </view>
     <view class="page__bd">
     <form bindsubmit="formSubmit">
 
         <view class="weui-toptips weui-toptips_warn" wx:if="{{showTopTips}}">{{Toptip}}</view>
 
-        <view class="weui-cells__title">广告标题</view>
+        <view class="weui-cells__title">推广标题</view>
         <view class="weui-cells weui-cells_after-title">
             <view class="weui-cell weui-cell_input">
                 <view class="weui-cell__bd">

@@ -1,5 +1,7 @@
 import drawQrcode from "weapp.qrcode.js";
 var qrLink;
+var accessToken;
+var id;
 // index.js
 Page({
     data: {
@@ -7,10 +9,12 @@ Page({
     },
     onLoad(options) {
       // Do some initialize when page load.
-        qrLink="https://itongchuanbao.com/wx/?id="+options.id;
+      id = options.id;
+        qrLink="https://itongchuanbao.com/openApp?id="+options.id;
         this.setData({
             text: qrLink
         });
+        
     },
     onReady() {
       // Do something when page ready.
@@ -27,6 +31,7 @@ Page({
             dHeight: 60
         }
       });
+      getAccessCode();
     },
     onShow() {
       // Do something when page show.
@@ -70,3 +75,37 @@ Page({
     }
   })
 
+function getAccessCode(){
+  wx.request({
+    url: 'https://itongchuanbao.com/wx/api/getAccessCode.php', 
+    data: {
+    },
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success(res) {
+      console.log(res.data);
+      accessToken = res.data.access_token;
+      getQrcode(accessToken);
+    }
+  })
+}
+
+function getQrcode(accessToken){
+  wx.request({
+    url: 'https://itongchuanbao.com/wx/api/getQrcode.php',
+    data: {
+      accessToken: accessToken,
+      scene: id,
+      page: 'pages/showAdv/index',
+      width: 200,
+      
+    },
+    header: {
+      'content-type': 'application/json' // 默认值
+    },
+    success(res) {
+      console.log(res.data)
+    }
+  })
+}

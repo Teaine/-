@@ -2,12 +2,15 @@ var model = require("../../model/model.js");
 var cities;
 var cityNow;
 var openId;
+var moneyBagId;
 
 Page({
   data: {
     showMessage: false,
     message: "",
-    verifyPass: false
+    verifyPass: false,
+    showOverLay: false,
+    btnShow: true
   },
   onLoad(options) {
     console.log(options);
@@ -15,7 +18,21 @@ Page({
       console.log("id未指定");
       return
     }
+    moneyBagId = options.id;
     var that = this;
+
+    var query = wx.createSelectorQuery();
+    //选择id
+
+    query.select('.container').boundingClientRect(function (rect) {
+      // console.log(rect.width)
+      that.setData({
+        overLayHeight: rect.width + 'px'
+      })
+    }).exec();
+
+
+
     var failed = 0;
     wx.request({
       url: 'https://itongchuanbao.com/wx/getpic.php?id=' + options.id, // 仅为示例，并非真实的接口地址
@@ -117,7 +134,7 @@ Page({
                 })
               }
             }
-        
+
           },
           fail(res) {
             that.setData({
@@ -139,14 +156,16 @@ Page({
     if (failed == 1)
       return;
 
-    
+
     // Do some initialize when page load.
   },
   onReady() {
     // Do something when page ready.
+
   },
   onShow() {
     // Do something when page show.
+
   },
   onHide() {
     // Do something when page hide.
@@ -185,22 +204,10 @@ Page({
   customData: {
     hi: 'MINA'
   },
-  getMoneyBag: function(e){
-    wx.request({
-      url: 'https://itongchuanbao.com/wx/wxmoneybag.php', 
-      data: {
-        openid : openId,
-        hbname : '爱同传包',
-        fee : 1,
-        body : "红包推广"
-      },
-      header: {
-        'content-type': 'application/json' 
-      },
-      success(res) {
-        console.log(res.data)
-      }
-    })
+  getMoneyBag: function (e) {
+    var that = this;
+    sendMoneyBag(that);
+    
   }
 })
 
@@ -227,3 +234,95 @@ function getOpenId() {
 }
 
 getOpenId();
+
+
+function showMoneyBag(money, that) {
+  var query = wx.createSelectorQuery();
+  //选择id
+
+  query.select('.container').boundingClientRect(function (rect) {
+    // console.log(rect.width)
+    that.setData({
+      overLayHeight: rect.height + 'px',
+      showOverLay: true,
+      btnShow: false
+    })
+  }).exec();
+  if(money == 0)
+  {
+    that.setData({
+      message:"抱歉，红包已经领完了，下次来早一点哦。"
+    })
+  }
+  else if(money == -1)
+  {
+    that.setData({
+      message:"抱歉，您已经领过这个推广红包了，可以找找别的推广红包哦。"
+    })
+  }
+  else
+  {
+    
+    that.setData({
+      message:"您获得了"+ money + "元的红包，系统已将金额转入您的余额，请查收。"
+    })
+  }
+  
+}
+
+function sendMoneyBag(that){
+  wx.request({
+    url: 'https://itongchuanbao.com/wx/wxmoneybag.php',
+    data: {
+      openid: openId,
+      id: moneyBagId,
+
+    },
+    header: {
+      'content-type': 'application/json'
+    },
+    success(res) {
+      console.log(res.data);
+      var money = res.data.money;
+      showMoneyBag(money, that);
+
+    },
+    fail(res){
+
+    }
+  });
+
+  // wx.sendBizRedPacket({
+  //   timeStamp: 1,
+  //   nonceStr: 1 ,
+  //   package: 1,
+  //   signType: 1,
+  //   paySign: 1,
+  //   success: function (res) {
+  //    console.log('红包success')
+  //    let url = config.HTTP_Prize_URL + '/v1/sign_tmp/sendSuccess.do';
+  //    let data = {
+  //     minipid: that.data.minipid,
+  //     date: that.data.date
+  //    }
+  //    console.log('红包成功以后接口请求参数数据:' + JSON.stringify(data))
+  //    util.request(url, 'post', data, '正在加载数据', function (res) {
+  //     console.log('红包成功以后接口返回结果:' + JSON.stringify(res.data))
+  //    })
+  //    wx.reLaunch({
+  //     url: '../my_prize/my_prize_2?reward=' + res.data.body.reward,
+  //    })
+  //   },
+  //   fail: function (res) {
+  //    console.log(res)
+  //   },
+  //   complete: function (res) {
+  //    console.log('红包complete')
+  //    // wx.showModal({
+  //    //  title: '红包complete',
+  //    //  content: '红包complete',
+  //    // })
+  //   }
+  //  })
+}
+

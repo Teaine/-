@@ -262,6 +262,21 @@ Page({
       }, 3000);
       return;
     }
+
+    if(e.detail.value.bagmoney < e.detail.value.bagnum * 10)
+    {
+      that.setData({
+        showTopTips: 1,
+        Toptip: "每个红包至少为1元以上"
+      });
+      setTimeout(function () {
+        that.setData({
+          showTopTips: false
+        });
+      }, 3000);
+      return;
+    }
+
     if(that.data.cityItems.length == 0)
     {
       that.setData({
