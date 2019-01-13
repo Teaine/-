@@ -263,7 +263,7 @@ Page({
       return;
     }
 
-    if(e.detail.value.bagmoney < e.detail.value.bagnum * 10)
+    if(e.detail.value.bagmoney < e.detail.value.bagnum * 1)
     {
       that.setData({
         showTopTips: 1,
@@ -305,7 +305,7 @@ Page({
       return;
     }
 
-    newPayRequest(fee * 100, this, e, files, city);
+    newPayRequest(parseInt(fee * 100), this, e, files, city);
   },
 
 });
@@ -319,7 +319,8 @@ function upload(id, that) {
       filePath: files[i],
       name: 'file',
       formData: {
-        'id': id
+        'id': id,
+        'picCount': i
       },
       success: function (res) {
         var data = res.data;

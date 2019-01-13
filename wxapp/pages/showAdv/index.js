@@ -14,11 +14,26 @@ Page({
   },
   onLoad(options) {
     console.log(options);
-    if (!options.hasOwnProperty("id")) {
+    
+    if (options.hasOwnProperty("id")) {
+      moneyBagId = options.id;
+      
+    } 
+    else if (options.hasOwnProperty("q"))
+    {
+      var url = decodeURIComponent(options.q);
+      moneyBagId = url.split("id=")[1];
+      
+    }
+    else
+    {
       console.log("id未指定");
+      this.setData({
+        showMessage: true,
+        message: "id未指定"
+      });
       return
     }
-    moneyBagId = options.id;
     var that = this;
 
     var query = wx.createSelectorQuery();
@@ -35,7 +50,7 @@ Page({
 
     var failed = 0;
     wx.request({
-      url: 'https://itongchuanbao.com/wx/getpic.php?id=' + options.id, // 仅为示例，并非真实的接口地址
+      url: 'https://itongchuanbao.com/wx/getpic.php?id=' + moneyBagId, // 仅为示例，并非真实的接口地址
       method: 'GET',
       data: {},
       header: {
@@ -59,7 +74,7 @@ Page({
       return;
 
     wx.request({
-      url: 'https://itongchuanbao.com/wx/getcities_noCallBack.php?id=' + options.id, // 仅为示例，并非真实的接口地址
+      url: 'https://itongchuanbao.com/wx/getcities_noCallBack.php?id=' + moneyBagId, // 仅为示例，并非真实的接口地址
       method: 'GET',
       data: {},
       header: {
