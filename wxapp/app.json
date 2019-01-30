@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/my/index",
     "pages/index/index",
     "pages/qrcode/index",
     "pages/showAdv/index"
@@ -15,6 +16,28 @@
     "connectSocket": 10000,
     "uploadFile": 10000,
     "downloadFile": 10000
+  },
+  "tabBar":{
+    "color": "#DDC5ED",
+    "selectedColor":"#7E57C2",
+    "backgroundColor":"#FBFBFB",
+    "boarderStyle":"white",
+    "list":
+    [
+      {
+        "pagePath":"pages/index/index",
+        "text":"创建红包",
+        "iconPath":"pic/player.png",
+        "selectedIconPath":"pic/player_selected.png"
+      },
+
+      {
+        "pagePath":"pages/my/index",
+        "text":"我的红包",
+        "iconPath":"pic/chatroom.png",
+        "selectedIconPath":"pic/chatroom_selected.png"
+      }
+    ]
   },
   "debug": true
 }
