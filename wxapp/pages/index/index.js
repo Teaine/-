@@ -262,6 +262,7 @@ Page({
       }, 3000);
       return;
     }
+<<<<<<< HEAD
 
     if(e.detail.value.bagmoney < e.detail.value.bagnum * 1)
     {
@@ -277,6 +278,8 @@ Page({
       return;
     }
 
+=======
+>>>>>>> parent of 1eb3a9e... christmas release
     if(that.data.cityItems.length == 0)
     {
       that.setData({

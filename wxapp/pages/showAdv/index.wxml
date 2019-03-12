@@ -40,7 +40,7 @@
                 </view>
             </view>
             <view class="btn">
-                <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="getMoneyBag" wx:if="{{btnShow}}">
+                <button type="primary" size="{{primarySize}}" loading="{{loading}}" plain="{{plain}}" disabled="{{disabled}}" bindtap="getMoneyBag">
                     点击领取红包
                 </button>
             </view>
@@ -51,16 +51,6 @@
                     <text style="color:red;font-size:15px;">地理位置验证未通过，请到红包领取区域范围内领取。</text>
                 </view>
             </view>
-        </view>
-    </view>
-</view>
-<view class="overLay" style="height:{{overLayHeight}};" wx:if="{{showOverLay}}">
-    <view class="moneyBagConatainer">
-        <view class="imgContainer">
-            <image src="moneyBag.jpg" mode="widthFix" binderror="" bindload="" class="moneyBagImg"></image>
-        </view>
-        <view class="textContainer">
-            <text class="text">{{message}}</text>
         </view>
     </view>
 </view>
